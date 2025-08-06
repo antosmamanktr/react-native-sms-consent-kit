@@ -3,9 +3,8 @@ import {
   NativeEventEmitter,
   Platform,
   EmitterSubscription,
-  NativeModule,
 } from "react-native";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type SmsConsentType = {
   startSmsConsentWatcher: () => Promise<void>;
@@ -40,32 +39,37 @@ export function stopSmsConsentWatcher(): Promise<void> {
 
 export function useSmsConsent(autoStart = true): string | null {
   const [retrievedCode, setRetrievedCode] = useState<string | null>(null);
+  const didReceive = useRef(false);
+  const receivedSub = useRef<EmitterSubscription | null>(null);
+  const errorSub = useRef<EmitterSubscription | null>(null);
 
   useEffect(() => {
     if (!autoStart || Platform.OS !== "android") return;
 
-    let receivedSub: EmitterSubscription;
-    let errorSub: EmitterSubscription;
+    didReceive.current = false;
 
     startSmsConsentWatcher()
       .then(() => {
-        receivedSub = SmsConsentEmitter.addListener(
+        receivedSub.current = SmsConsentEmitter.addListener(
           Events.SMS_CONSENT_RECEIVED,
           (event: { message: string }) => {
+            if (didReceive.current) return; // Ignore duplicates
+            didReceive.current = true;
+
             setRetrievedCode(event.message);
             stopSmsConsentWatcher();
-            receivedSub?.remove();
-            errorSub?.remove();
+            receivedSub.current?.remove();
+            errorSub.current?.remove();
           }
         );
 
-        errorSub = SmsConsentEmitter.addListener(
+        errorSub.current = SmsConsentEmitter.addListener(
           Events.SMS_CONSENT_ERROR,
           (error: any) => {
             console.warn("[SMS_CONSENT_ERROR]", error);
             stopSmsConsentWatcher();
-            receivedSub?.remove();
-            errorSub?.remove();
+            receivedSub.current?.remove();
+            errorSub.current?.remove();
           }
         );
       })
@@ -75,8 +79,8 @@ export function useSmsConsent(autoStart = true): string | null {
 
     return () => {
       stopSmsConsentWatcher();
-      receivedSub?.remove();
-      errorSub?.remove();
+      receivedSub.current?.remove();
+      errorSub.current?.remove();
     };
   }, [autoStart]);
 
