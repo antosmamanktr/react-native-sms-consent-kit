@@ -2,12 +2,23 @@ package com.mysmsconsent
 
 import android.app.Activity
 import android.content.Intent
-import com.facebook.react.bridge.BaseActivityEventListener
+import com.facebook.react.bridge.ActivityEventListener
 import com.google.android.gms.auth.api.phone.SmsRetriever
 
-class SmsConsentResultListener(private val module: SmsConsentModule) : BaseActivityEventListener() {
-    override fun onActivityResult(activity: Activity?, requestCode: Int, resultCode: Int, data: Intent?) {
-    if (requestCode == SmsRetriever.SMS_CONSENT_REQUEST) {
+class SmsConsentResultListener(private val module: SmsConsentModule) : ActivityEventListener {
+
+    companion object {
+        const val SMS_CONSENT_REQUEST = 125
+    }
+
+    override fun onActivityResult(
+        activity: Activity,
+        requestCode: Int,
+        resultCode: Int,
+        data: Intent?
+    ) {
+        if (requestCode != SMS_CONSENT_REQUEST) return
+
         if (resultCode == Activity.RESULT_OK && data != null) {
             val message = data.getStringExtra(SmsRetriever.EXTRA_SMS_MESSAGE)
             if (message != null) {
@@ -29,9 +40,10 @@ class SmsConsentResultListener(private val module: SmsConsentModule) : BaseActiv
             )
         }
 
-        // ✅ Always remove listener after receiving result
-        module.reactContext.removeActivityEventListener(this)
+        module.getReactContext().removeActivityEventListener(this)
     }
-}
 
+    override fun onNewIntent(intent: Intent?) {
+        // Not used
+    }
 }

@@ -16,9 +16,11 @@ class SmsConsentModule(private val reactContext: ReactApplicationContext) :
     private val resultListener = SmsConsentResultListener(this)
 
     companion object {
-        const val EVENT_SMS_CONSENT_RECEIVED = "SMS_CONSENT_RECEIVED"
-        const val EVENT_SMS_CONSENT_ERROR = "SMS_CONSENT_ERROR"
+        const val EVENT_SMS_CONSENT_RECEIVED = "EVENT_SMS_CONSENT_RECEIVED"
+        const val EVENT_SMS_CONSENT_ERROR = "EVENT_SMS_CONSENT_ERROR"
     }
+
+    fun getReactContext(): ReactApplicationContext = reactContext
 
     @SuppressLint("UnspecifiedRegisterReceiverFlag")
     @Throws(SmsConsentException::class)
@@ -33,9 +35,9 @@ class SmsConsentModule(private val reactContext: ReactApplicationContext) :
 
         val filter = IntentFilter(SmsRetriever.SMS_RETRIEVED_ACTION)
         if (Build.VERSION.SDK_INT >= 34) {
-            activity.registerReceiver(receiver, filter, SmsRetriever.SEND_PERMISSION, null, Context.RECEIVER_EXPORTED)
+            activity.registerReceiver(receiver, filter, Context.RECEIVER_EXPORTED)
         } else {
-            activity.registerReceiver(receiver, filter, SmsRetriever.SEND_PERMISSION, null)
+            activity.registerReceiver(receiver, filter)
         }
 
         reactContext.addActivityEventListener(resultListener)
@@ -59,28 +61,14 @@ class SmsConsentModule(private val reactContext: ReactApplicationContext) :
         } ?: throw SmsConsentException(SmsConsentErrorType.RECEIVER_NOT_REGISTERED, "Receiver not found")
     }
 
-    private fun restartListening() {
-        try {
-            stopListening()
-        } catch (e: SmsConsentException) {
-            onError(e)
-            return
-        }
-
-        try {
-            beginListening()
-        } catch (e: SmsConsentException) {
-            onError(e)
-        }
-    }
-
     fun onSmsReceived(message: String) {
         val payload = Arguments.createMap()
         payload.putString("message", message)
         reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter::class.java)
             .emit(EVENT_SMS_CONSENT_RECEIVED, payload)
+
         try {
-            stopListening()
+            stopListening() // ✅ stop after one message
         } catch (e: SmsConsentException) {
             onError(e)
         }
