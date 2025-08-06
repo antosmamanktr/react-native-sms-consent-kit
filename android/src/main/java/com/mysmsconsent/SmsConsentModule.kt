@@ -79,7 +79,11 @@ class SmsConsentModule(private val reactContext: ReactApplicationContext) :
         payload.putString("message", message)
         reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter::class.java)
             .emit(EVENT_SMS_CONSENT_RECEIVED, payload)
-        restartListening()
+        try {
+            stopListening()
+        } catch (e: SmsConsentException) {
+            onError(e)
+        }
     }
 
     fun onError(e: SmsConsentException) {
