@@ -1,0 +1,27 @@
+{
+  "name": "react-native-sms-consent-kit",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [],
+   "files": [
+    "index.js",
+    "android/src",
+    "android/build.gradle"
+  ],
+  "homepage": "https://github.com/antosmamanktr/react-native-sms-consent-kit#readme",
+  "bugs": {
+    "url": "https://github.com/antosmamanktr/react-native-sms-consent-kit/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antosmamanktr/react-native-sms-consent-kit.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+    "react-native": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
