@@ -16,8 +16,9 @@ class SmsConsentModule(private val reactContext: ReactApplicationContext) :
     private val resultListener = SmsConsentResultListener(this)
 
     companion object {
-        const val EVENT_SMS_CONSENT_RECEIVED = "EVENT_SMS_CONSENT_RECEIVED"
-        const val EVENT_SMS_CONSENT_ERROR = "EVENT_SMS_CONSENT_ERROR"
+        const val EVENT_SMS_CONSENT_RECEIVED = "SMS_CONSENT_RECEIVED"
+        const val EVENT_SMS_CONSENT_ERROR = "SMS_CONSENT_ERROR"
+
     }
 
     fun getReactContext(): ReactApplicationContext = reactContext
