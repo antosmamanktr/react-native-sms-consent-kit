@@ -1,12 +1,32 @@
 {
-  "name": "react-native-sms-consent-kit",
+  "name": "@react-native-community/sms-user-consent",
   "version": "1.0.0",
-  "description": "",
-  "keywords": [],
-   "files": [
-    "index.js",
+  "description": "A lightweight React Native module for Android's SMS User Consent API. Easily retrieve verification codes from SMS without full SMS permissions.",
+  "keywords": [
+    "react-native",
+    "sms",
+    "otp",
+    "sms-consent",
+    "android",
+    "user-consent",
+    "sms-verification",
+    "one-time-password",
+    "react-native-module",
+    "react-native-sms",
+     "react-native-otp-read",
+    "react-native-sms-user-consent"
+  ],
+  "files": [
+    "dist",
+    "android",
+    "ios",
+    "src",
+    "index.ts",
+    "react-native.config.js",
     "android/src",
-    "android/build.gradle"
+    "android/build.gradle",
+    "README.md",
+    "LICENSE"
   ],
   "homepage": "https://github.com/antosmamanktr/react-native-sms-consent-kit#readme",
   "bugs": {
@@ -14,14 +34,25 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/antosmamanktr/react-native-sms-consent-kit.git"
+    "url": "https://github.com/antosmamanktr/react-native-sms-consent-kit.git"
   },
   "license": "ISC",
   "author": "",
-  "type": "commonjs",
-  "main": "index.js",
-    "react-native": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "react-native": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build:types": "tsc --emitDeclarationOnly",
+    "build": "tsc",
+    "prepare": "npm run build"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-native": ">=0.68.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.9",
+    "@types/react-native": "^0.72.8",
+    "typescript": "^5.9.2"
   }
 }

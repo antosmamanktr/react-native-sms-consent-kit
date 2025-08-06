@@ -4,6 +4,7 @@ module.exports = {
     platforms: {
       android: {
         sourceDir: './android',
+        ios: null
       },
     },
   },
