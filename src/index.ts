@@ -4,8 +4,8 @@ import {
   Platform,
   EmitterSubscription,
   NativeModule,
-} from "react-native";
-import { useEffect, useState } from "react";
+} from 'react-native';
+import { useEffect, useState } from 'react';
 
 type SmsConsentType = {
   startSmsConsentWatcher: () => Promise<void>;
@@ -20,19 +20,19 @@ const SmsConsentTyped = SmsConsent as SmsConsentType;
 export const SmsConsentEmitter = new NativeEventEmitter(SmsConsentTyped);
 
 export const Events = {
-  SMS_CONSENT_RECEIVED: "EVENT_SMS_CONSENT_RECEIVED",
-  SMS_CONSENT_ERROR: "EVENT_SMS_CONSENT_ERROR",
+  SMS_CONSENT_RECEIVED: 'SMS_CONSENT_RECEIVED',
+  SMS_CONSENT_ERROR: 'SMS_CONSENT_ERROR',
 };
 
 export function startSmsConsentWatcher(): Promise<void> {
-  if (Platform.OS === "android" && SmsConsentTyped?.startSmsConsentWatcher) {
+  if (Platform.OS === 'android' && SmsConsentTyped?.startSmsConsentWatcher) {
     return SmsConsentTyped.startSmsConsentWatcher();
   }
   return Promise.resolve();
 }
 
 export function stopSmsConsentWatcher(): Promise<void> {
-  if (Platform.OS === "android" && SmsConsentTyped?.stopSmsConsentWatcher) {
+  if (Platform.OS === 'android' && SmsConsentTyped?.stopSmsConsentWatcher) {
     return SmsConsentTyped.stopSmsConsentWatcher();
   }
   return Promise.resolve();
@@ -42,7 +42,7 @@ export function useSmsConsent(autoStart = true): string | null {
   const [retrievedCode, setRetrievedCode] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!autoStart || Platform.OS !== "android") return;
+    if (!autoStart || Platform.OS !== 'android') return;
 
     let receivedSub: EmitterSubscription;
     let errorSub: EmitterSubscription;
@@ -62,7 +62,7 @@ export function useSmsConsent(autoStart = true): string | null {
         errorSub = SmsConsentEmitter.addListener(
           Events.SMS_CONSENT_ERROR,
           (error: any) => {
-            console.warn("[SMS_CONSENT_ERROR]", error);
+            console.warn('[SMS_CONSENT_ERROR]', error);
             stopSmsConsentWatcher();
             receivedSub?.remove();
             errorSub?.remove();
@@ -70,7 +70,7 @@ export function useSmsConsent(autoStart = true): string | null {
         );
       })
       .catch((err) => {
-        console.error("Failed to start SMS Consent:", err);
+        console.error('Failed to start SMS Consent:', err);
       });
 
     return () => {
