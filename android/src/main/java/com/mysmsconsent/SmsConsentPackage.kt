@@ -1,4 +1,4 @@
-package com.jack
+package com.mysmsconsent
 
 import com.facebook.react.ReactPackage
 import com.facebook.react.bridge.NativeModule

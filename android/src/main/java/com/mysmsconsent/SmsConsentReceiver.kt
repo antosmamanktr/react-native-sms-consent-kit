@@ -1,4 +1,4 @@
-package com.jack
+package com.mysmsconsent
 
 import android.app.Activity
 import android.content.BroadcastReceiver

@@ -1,4 +1,4 @@
-package com.jack
+package com.mysmsconsent
 
 enum class SmsConsentErrorType {
     ACTIVITY_UNAVAILABLE,

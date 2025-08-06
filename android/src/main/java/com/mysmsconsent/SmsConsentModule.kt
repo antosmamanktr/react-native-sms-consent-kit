@@ -1,4 +1,4 @@
-package com.jack
+package com.mysmsconsent
 
 import android.annotation.SuppressLint
 import android.app.Activity
