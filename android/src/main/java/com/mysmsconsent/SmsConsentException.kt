@@ -1,6 +1,3 @@
 package com.mysmsconsent
 
-class SmsConsentException(
-    val errorType: SmsConsentErrorType,
-    override val message: String
-) : Exception(message)
+class SmsConsentException(val errorType: SmsConsentErrorType, message: String) : RuntimeException(message)
