@@ -59,27 +59,11 @@ class SmsConsentModule(private val reactContext: ReactApplicationContext) :
         } ?: throw SmsConsentException(SmsConsentErrorType.RECEIVER_NOT_REGISTERED, "Receiver not found")
     }
 
-    private fun restartListening() {
-        try {
-            stopListening()
-        } catch (e: SmsConsentException) {
-            onError(e)
-            return
-        }
-
-        try {
-            beginListening()
-        } catch (e: SmsConsentException) {
-            onError(e)
-        }
-    }
-
     fun onSmsReceived(message: String) {
         val payload = Arguments.createMap()
         payload.putString("message", message)
         reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter::class.java)
             .emit(EVENT_SMS_CONSENT_RECEIVED, payload)
-        restartListening()
     }
 
     fun onError(e: SmsConsentException) {
