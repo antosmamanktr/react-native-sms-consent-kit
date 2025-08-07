@@ -1,8 +1,10 @@
-# 📲 @react-native-community/sms-user-consent
+# 📲 react-native-sms-consent-api
 
 A secure and lightweight **React Native module** for reading **one-time passwords (OTP)** using Android's **SMS User Consent API** — **without SMS permission**.
 
 Perfect for apps needing secure OTP verification (e.g., login, signup, password reset).
+---
+![SMS Consent Demo](./src/assets/demo-file.gif)
 
 ---
 

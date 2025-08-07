@@ -1,6 +1,6 @@
 {
-  "name": "@react-native-community/sms-user-consent",
-  "version": "1.0.0",
+  "name": "react-native-sms-consent-api",
+  "version": "1.0.01",
   "description": "A lightweight React Native module for Android's SMS User Consent API. Easily retrieve verification codes from SMS without full SMS permissions.",
   "keywords": [
     "react-native",
@@ -14,6 +14,7 @@
     "react-native-module",
     "react-native-sms",
      "react-native-otp-read",
+    "react-native-sms-consent-api",
     "react-native-sms-user-consent"
   ],
   "files": [
